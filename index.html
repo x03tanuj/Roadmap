@@ -1,0 +1,3568 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MERN Roadmap Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0d10;
+        --bg-soft: #11151b;
+        --card: #131820;
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #f3efe8;
+        --muted: #a5a3a0;
+        --sage: #89a08c;
+        --amber: #caa167;
+        --terracotta: #c17b61;
+        --slate: #73879e;
+        --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        --radius: 16px;
+        --nav-width: 1200px;
+        --font-head: "Fraunces", Georgia, serif;
+        --font-body:
+          "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at top left,
+            rgba(137, 160, 140, 0.18),
+            transparent 32%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgba(202, 161, 103, 0.12),
+            transparent 28%
+          ),
+          linear-gradient(180deg, var(--bg) 0%, #090b0f 100%);
+        font-family: var(--font-body);
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.25),
+          transparent 60%
+        );
+        opacity: 0.45;
+      }
+
+      .material-symbols-rounded {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        vertical-align: middle;
+      }
+      button,
+      select,
+      textarea,
+      input {
+        font: inherit;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .shell {
+        position: relative;
+        z-index: 1;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: blur(18px);
+        background: rgba(11, 13, 16, 0.78);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .topbar-inner {
+        max-width: var(--nav-width);
+        margin: 0 auto;
+        padding: 18px 20px 14px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(125, 146, 125, 0.18),
+          rgba(197, 140, 77, 0.18)
+        );
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        display: grid;
+        place-items: center;
+        font-family: var(--font-head);
+        font-weight: 700;
+      }
+      .brand-title {
+        font-family: var(--font-head);
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .brand-sub {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 4px;
+      }
+
+      .pill-nav {
+        justify-self: center;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        padding: 8px;
+        border-radius: 999px;
+        background: rgba(18, 22, 28, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: var(--shadow);
+        overflow: auto;
+        max-width: 100%;
+      }
+      .pill-nav::-webkit-scrollbar,
+      .sidebar::-webkit-scrollbar,
+      .content::-webkit-scrollbar {
+        height: 4px;
+        width: 4px;
+      }
+      .pill-nav::-webkit-scrollbar-thumb,
+      .sidebar::-webkit-scrollbar-thumb,
+      .content::-webkit-scrollbar-thumb {
+        background: rgba(26, 26, 26, 0.16);
+        border-radius: 999px;
+      }
+
+      .nav-btn,
+      .sidebar-link,
+      .action-btn,
+      .phase-toggle {
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--muted);
+        transition:
+          transform 160ms ease,
+          background 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease,
+          box-shadow 160ms ease;
+      }
+      .nav-btn {
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .nav-btn:hover,
+      .nav-btn.active {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+      }
+      .top-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(18, 22, 28, 0.92);
+        border-color: rgba(255, 255, 255, 0.06);
+        cursor: pointer;
+      }
+      .action-btn:hover {
+        transform: translateY(-1px);
+        color: var(--text);
+      }
+
+      .status-rail {
+        max-width: var(--nav-width);
+        margin: 0 auto;
+        padding: 0 20px 14px;
+      }
+      .status-card {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr 1fr;
+        gap: 14px;
+        align-items: center;
+        padding: 14px 16px;
+        border-radius: var(--radius);
+        background: rgba(18, 22, 28, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: var(--shadow);
+      }
+      .status-main {
+        min-width: 0;
+      }
+      .status-label {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 7px;
+      }
+      .progress-wrap {
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--sage), var(--amber));
+        width: 0;
+        transition: width 300ms ease;
+      }
+      .status-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        justify-content: flex-end;
+      }
+      .metric {
+        padding-left: 14px;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .metric strong {
+        display: block;
+        font-family: var(--font-head);
+        font-size: 20px;
+        line-height: 1;
+        color: var(--text);
+      }
+      .metric span {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .layout {
+        max-width: var(--nav-width);
+        margin: 0 auto;
+        padding: 10px 20px 30px;
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 26px;
+      }
+      .sidebar {
+        position: sticky;
+        top: 112px;
+        align-self: start;
+        padding: 4px 0 16px 16px;
+        border-left: 1px solid rgba(137, 160, 140, 0.32);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .sidebar-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .sidebar-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .sidebar-link {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 12px;
+        border-radius: 14px;
+        cursor: pointer;
+        text-align: left;
+      }
+      .sidebar-link:hover,
+      .sidebar-link.active {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.06);
+      }
+      .sidebar-link .material-symbols-rounded {
+        font-size: 18px;
+        color: var(--sage);
+      }
+      .content {
+        min-width: 0;
+      }
+      .page {
+        display: none;
+        padding-bottom: 28px;
+        animation: pageIn 240ms ease;
+      }
+      .page.active {
+        display: block;
+      }
+      @keyframes pageIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero,
+      .section,
+      .phase-card,
+      .week-card,
+      .stat-card,
+      .project-card,
+      .mini-card {
+        background: rgba(18, 22, 28, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+      }
+      .hero {
+        padding: 28px;
+        margin-bottom: 18px;
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--sage);
+        font-size: 11px;
+        margin-bottom: 12px;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+        font-family: var(--font-head);
+        font-weight: 600;
+      }
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 4.6rem);
+        line-height: 0.97;
+        letter-spacing: -0.03em;
+        max-width: 10ch;
+      }
+      .hero p,
+      .section-sub,
+      .muted {
+        color: var(--muted);
+      }
+      .overview-grid,
+      .split-grid,
+      .two-up,
+      .pattern-grid,
+      .mindset-grid,
+      .daily-layout,
+      .portfolio-layout,
+      .interview-layout,
+      .traps-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .overview-grid,
+      .split-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .two-up,
+      .daily-layout,
+      .portfolio-layout,
+      .interview-layout,
+      .traps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .pattern-grid,
+      .mindset-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .section {
+        padding: 22px;
+        margin-bottom: 18px;
+      }
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+      .section-title {
+        font-family: var(--font-head);
+        font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+        line-height: 1.05;
+      }
+      .section-sub {
+        max-width: 68ch;
+        margin-top: 8px;
+        line-height: 1.65;
+      }
+      .stat-card,
+      .mini-card {
+        padding: 18px;
+      }
+      .stat-card strong,
+      .metric strong {
+        font-family: var(--font-head);
+      }
+      .stat-card strong {
+        display: block;
+        font-size: 2rem;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .small-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+      }
+
+      .phase-card {
+        overflow: hidden;
+      }
+      .phase-head {
+        display: flex;
+        align-items: start;
+        gap: 14px;
+        padding: 18px;
+      }
+      .phase-marker {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-top: 8px;
+        flex: 0 0 auto;
+      }
+      .phase-copy {
+        flex: 1;
+        min-width: 0;
+      }
+      .phase-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+      .phase-badge,
+      .stamp,
+      .tag,
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .phase-badge {
+        color: var(--muted);
+      }
+      .phase-badge strong {
+        color: var(--text);
+      }
+      .phase-progress {
+        margin-top: 14px;
+      }
+      .phase-body {
+        padding: 0 18px 18px;
+        display: none;
+      }
+      .phase-body.open {
+        display: block;
+      }
+      .phase-toggle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
+      .phase-toggle.open {
+        transform: rotate(180deg);
+      }
+      .checklist,
+      .week-list,
+      .bullet-list {
+        display: grid;
+        gap: 10px;
+      }
+      .check-row,
+      .week-task {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        align-items: start;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .check-row input,
+      .week-task input {
+        margin-top: 3px;
+        accent-color: var(--sage);
+      }
+      .check-row.done,
+      .week-task.done {
+        color: var(--muted);
+      }
+      .check-row.done .label-text,
+      .week-task.done .label-text {
+        text-decoration: line-through;
+        text-decoration-thickness: 1px;
+        opacity: 0.7;
+      }
+      .check-meta {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .project-grid {
+        display: grid;
+        gap: 14px;
+        margin-top: 18px;
+      }
+      .project-card {
+        padding: 16px;
+      }
+      .project-top {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .project-title {
+        font-size: 1.03rem;
+        margin-bottom: 6px;
+      }
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        color: var(--muted);
+        background: rgba(125, 146, 125, 0.08);
+      }
+      .project-controls {
+        display: grid;
+        gap: 10px;
+        min-width: 220px;
+      }
+      .project-controls label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+      }
+      .project-controls select,
+      .project-controls textarea {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        padding: 10px 12px;
+        outline: none;
+      }
+      .project-controls textarea {
+        min-height: 88px;
+        resize: vertical;
+      }
+      details {
+        margin-top: 12px;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .week-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .week-card {
+        padding: 18px;
+        position: relative;
+      }
+      .week-card.complete {
+        outline: 1px solid rgba(125, 146, 125, 0.24);
+      }
+      .week-stamp {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        opacity: 0;
+        transform: rotate(8deg) scale(0.95);
+        transition:
+          opacity 200ms ease,
+          transform 200ms ease;
+      }
+      .week-card.complete .week-stamp {
+        opacity: 1;
+        transform: rotate(-6deg) scale(1);
+      }
+      .week-header {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+      .week-name {
+        font-size: 1rem;
+        margin-bottom: 6px;
+      }
+      .week-meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .week-title {
+        font-size: 1.08rem;
+      }
+      .week-desc {
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 14px;
+      }
+      .week-actions {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .quick-btn {
+        cursor: pointer;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
+        padding: 10px 14px;
+      }
+      .quick-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .schedule-card {
+        padding: 18px;
+      }
+      .time-row {
+        display: grid;
+        grid-template-columns: 95px 1fr;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .time-row:last-child {
+        border-bottom: 0;
+      }
+      .time {
+        color: var(--sage);
+        font-size: 12px;
+      }
+      .timeline {
+        position: relative;
+        padding-left: 22px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 8px;
+        bottom: 8px;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .timeline-item {
+        position: relative;
+        padding: 16px 16px 16px 18px;
+        margin-bottom: 12px;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 21px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--sage);
+        box-shadow: 0 0 0 4px rgba(125, 146, 125, 0.12);
+      }
+      .pattern-card,
+      .mindset-card,
+      .trap-card {
+        padding: 18px;
+      }
+      .pattern-name,
+      .mindset-title,
+      .trap-title {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+      .pattern-desc,
+      .mindset-desc,
+      .trap-desc {
+        color: var(--muted);
+        line-height: 1.65;
+      }
+      .note {
+        background: rgba(137, 160, 140, 0.08);
+        border: 1px solid rgba(137, 160, 140, 0.14);
+        border-radius: 14px;
+        padding: 14px 16px;
+        color: var(--muted);
+      }
+
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 16px;
+      }
+
+      .task-form {
+        display: grid;
+        gap: 10px;
+      }
+
+      .task-form textarea,
+      .task-form input {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        padding: 12px 14px;
+        outline: none;
+      }
+
+      .task-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .task-item {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .task-item.done .task-text {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+
+      .ghost-btn {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 10px 14px;
+        cursor: pointer;
+      }
+
+      .ghost-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .danger-btn {
+        border: 1px solid rgba(193, 123, 97, 0.25);
+        background: rgba(193, 123, 97, 0.08);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+
+      .analytics-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 16px;
+      }
+
+      .chart-card {
+        padding: 18px;
+      }
+
+      .chart-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .sparkline {
+        width: 100%;
+        height: 160px;
+      }
+
+      .heatmap {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .heat-cell {
+        aspect-ratio: 1;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .heat-cell span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .heat-cell::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(137, 160, 140, 0.12),
+          rgba(202, 161, 103, 0.18)
+        );
+        opacity: var(--heat, 0);
+      }
+
+      .ai-card {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .meter {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+      }
+
+      .meter > div {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--sage), var(--amber));
+      }
+
+      .forecast-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .forecast-pill {
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .tiny-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+      }
+
+      .consistency-kpi {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .consistency-kpi .stat-card {
+        padding: 14px;
+      }
+
+      .consistency-kpi strong {
+        font-size: 1.5rem;
+      }
+
+      .today-top {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .today-card {
+        padding: 20px;
+      }
+      .today-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .big-number {
+        font-family: var(--font-head);
+        font-size: clamp(2.6rem, 6vw, 4rem);
+        line-height: 1;
+        margin: 8px 0 10px;
+      }
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .primary-btn {
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 11px 16px;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        background: linear-gradient(
+          180deg,
+          rgba(125, 146, 125, 0.16),
+          rgba(125, 146, 125, 0.08)
+        );
+      }
+      .secondary-btn {
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 11px 16px;
+        border: 1px solid rgba(26, 26, 26, 0.08);
+        background: rgba(255, 255, 255, 0.72);
+      }
+      .primary-btn:hover,
+      .secondary-btn:hover {
+        transform: translateY(-1px);
+      }
+      .overview-hero {
+        margin-bottom: 18px;
+      }
+      .overview-phase-strip {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .overview-phase {
+        padding: 16px;
+      }
+      .overview-phase .phase-line {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        margin-bottom: 8px;
+      }
+      .overview-phase h3 {
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+      }
+      .overview-phase p {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .print-note {
+        display: none;
+      }
+
+      @media (max-width: 1180px) {
+        .topbar-inner,
+        .status-card,
+        .layout,
+        .today-top,
+        .overview-phase-strip,
+        .daily-layout,
+        .portfolio-layout,
+        .interview-layout,
+        .traps-grid,
+        .mindset-grid,
+        .pattern-grid,
+        .two-up,
+        .split-grid,
+        .overview-grid,
+        .today-grid,
+        .week-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .topbar-inner {
+          grid-template-columns: 1fr;
+        }
+        .pill-nav {
+          justify-self: stretch;
+        }
+        .top-actions {
+          justify-content: flex-start;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: relative;
+          top: 0;
+          border-left: 0;
+          border-top: 1px solid rgba(125, 146, 125, 0.24);
+          padding: 16px 0 0;
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .workspace-grid,
+        .analytics-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .status-card,
+        .today-top,
+        .overview-phase-strip,
+        .daily-layout,
+        .portfolio-layout,
+        .interview-layout,
+        .traps-grid,
+        .mindset-grid,
+        .pattern-grid,
+        .two-up,
+        .split-grid,
+        .overview-grid,
+        .today-grid,
+        .week-grid,
+        .sidebar {
+          grid-template-columns: 1fr;
+        }
+        .status-card {
+          gap: 12px;
+        }
+        .status-meta {
+          justify-content: flex-start;
+          flex-wrap: wrap;
+        }
+        .metric {
+          border-left: 0;
+          padding-left: 0;
+          border-top: 1px solid rgba(26, 26, 26, 0.08);
+          padding-top: 12px;
+        }
+        .topbar-inner,
+        .layout {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+        .hero,
+        .section {
+          padding: 18px;
+        }
+        .project-top {
+          grid-template-columns: 1fr;
+        }
+        .project-controls {
+          min-width: 0;
+        }
+        .workspace-grid,
+        .analytics-grid,
+        .consistency-kpi {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media print {
+        .topbar,
+        .sidebar,
+        .status-rail,
+        .print-hide {
+          display: none !important;
+        }
+        body {
+          background: white;
+        }
+        .layout {
+          display: block;
+          max-width: none;
+          padding: 0;
+        }
+        .page {
+          display: block !important;
+          page-break-after: always;
+        }
+        .week-card,
+        .section,
+        .hero,
+        .phase-card,
+        .stat-card,
+        .project-card {
+          box-shadow: none;
+          background: white;
+          break-inside: avoid;
+        }
+        .print-note {
+          display: block;
+          margin: 0 0 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <div class="brand-mark">M</div>
+            <div class="brand-copy">
+              <div class="brand-title">MERN Roadmap</div>
+              <div class="brand-sub">
+                8 months · living tracker · localStorage
+              </div>
+            </div>
+          </div>
+
+          <nav class="pill-nav" aria-label="Primary navigation">
+            <button class="nav-btn active" data-page-btn="today">Today</button>
+            <button class="nav-btn" data-page-btn="overview">Overview</button>
+            <button class="nav-btn" data-page-btn="phases">Phases</button>
+            <button class="nav-btn" data-page-btn="weekly">Weekly</button>
+            <button class="nav-btn" data-page-btn="daily">Daily</button>
+            <button class="nav-btn" data-page-btn="dsa">DSA</button>
+            <button class="nav-btn" data-page-btn="interview">Interview</button>
+            <button class="nav-btn" data-page-btn="portfolio">Portfolio</button>
+            <button class="nav-btn" data-page-btn="mindset">Mindset</button>
+            <button class="nav-btn" data-page-btn="traps">Traps</button>
+          </nav>
+
+          <div class="top-actions print-hide">
+            <button class="action-btn" id="reset-btn">
+              <span class="material-symbols-rounded">restart_alt</span> Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="status-rail">
+          <div class="status-card">
+            <div class="status-main">
+              <div class="status-label">Overall progress</div>
+              <div class="progress-wrap">
+                <div class="progress-fill" id="overall-progress-fill"></div>
+              </div>
+              <div class="status-meta" style="margin-top: 10px">
+                <span id="overall-progress-text">0% complete</span
+                ><span id="roadmap-span">8 months · 32 weeks</span>
+              </div>
+            </div>
+            <div class="metric">
+              <strong id="top-week">Week 1</strong
+              ><span>Current roadmap week</span>
+            </div>
+            <div class="metric">
+              <strong id="top-streak">1</strong><span>Daily streak</span>
+            </div>
+            <div class="metric">
+              <strong id="top-dsa">0</strong><span>DSA solved all-time</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar print-hide">
+          <div class="sidebar-group">
+            <div class="sidebar-label">Pages</div>
+            <button class="sidebar-link active" data-page-btn="today">
+              <span class="material-symbols-rounded">today</span> Today
+            </button>
+            <button class="sidebar-link" data-page-btn="overview">
+              <span class="material-symbols-rounded">dashboard</span> Overview
+            </button>
+            <button class="sidebar-link" data-page-btn="phases">
+              <span class="material-symbols-rounded">view_timeline</span> Phases
+            </button>
+            <button class="sidebar-link" data-page-btn="weekly">
+              <span class="material-symbols-rounded">calendar_month</span>
+              Weekly
+            </button>
+            <button class="sidebar-link" data-page-btn="daily">
+              <span class="material-symbols-rounded">schedule</span> Daily
+            </button>
+          </div>
+          <div class="sidebar-group">
+            <div class="sidebar-label">Study</div>
+            <button class="sidebar-link" data-page-btn="dsa">
+              <span class="material-symbols-rounded">code</span> DSA
+            </button>
+            <button class="sidebar-link" data-page-btn="interview">
+              <span class="material-symbols-rounded">forum</span> Interview
+            </button>
+            <button class="sidebar-link" data-page-btn="portfolio">
+              <span class="material-symbols-rounded">folder_open</span>
+              Portfolio
+            </button>
+            <button class="sidebar-link" data-page-btn="mindset">
+              <span class="material-symbols-rounded">self_improvement</span>
+              Mindset
+            </button>
+            <button class="sidebar-link" data-page-btn="traps">
+              <span class="material-symbols-rounded">warning</span> Traps
+            </button>
+          </div>
+          <div class="sidebar-group">
+            <div class="sidebar-label">Quick stats</div>
+            <div class="mini-card">
+              <div class="small-label">Current mode</div>
+              <div id="current-mode">8–10h/day</div>
+            </div>
+            <div class="mini-card">
+              <div class="small-label">Today</div>
+              <div id="today-state">Not marked done</div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="content">
+          <section id="page-today" class="page active">
+            <div class="hero overview-hero">
+              <div class="eyebrow">Living tracker · daily landing page</div>
+              <h1>Today.</h1>
+              <p>
+                A light, daily roadmap for a MERN engineer. Check off tasks, log
+                DSA, track streaks, and keep shipping.
+              </p>
+            </div>
+            <div class="today-top">
+              <div class="today-card">
+                <div class="small-label">Today</div>
+                <div class="big-number" id="today-date">Loading...</div>
+                <div class="muted" id="today-week-copy"></div>
+                <div class="btn-row">
+                  <button class="primary-btn" id="mark-today-btn">
+                    <span class="material-symbols-rounded">check_circle</span>
+                    Mark today done
+                  </button>
+                  <button class="secondary-btn" id="log-dsa-btn">
+                    <span class="material-symbols-rounded">add_circle</span> Log
+                    a problem solved
+                  </button>
+                  <button class="secondary-btn" id="open-project-btn">
+                    <span class="material-symbols-rounded">open_in_new</span>
+                    Open current project
+                  </button>
+                </div>
+              </div>
+              <div class="today-card">
+                <div class="small-label">Streak + DSA</div>
+                <div class="today-grid">
+                  <div class="stat-card">
+                    <strong id="today-streak">1</strong>
+                    <div class="small-label">Consecutive days</div>
+                  </div>
+                  <div class="stat-card">
+                    <strong id="today-dsa-total">0</strong>
+                    <div class="small-label">All-time DSA</div>
+                  </div>
+                  <div class="stat-card">
+                    <strong id="today-dsa-count">0</strong>
+                    <div class="small-label">Today</div>
+                  </div>
+                  <div class="stat-card">
+                    <strong id="today-done-indicator">No</strong>
+                    <div class="small-label">Today done</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Today's suggested tasks</div>
+                  <div class="section-sub">
+                    Pulled from the weekly roadmap for the current week.
+                  </div>
+                </div>
+              </div>
+              <div class="checklist" id="today-task-list"></div>
+            </div>
+            <div class="section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Current project</div>
+                  <div class="section-sub">
+                    The best next project for the week you are in.
+                  </div>
+                </div>
+              </div>
+              <div id="today-project-preview"></div>
+            </div>
+
+            <div class="section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Today workspace</div>
+                  <div class="section-sub">
+                    Add your own tasks, mark them complete, delete what no
+                    longer matters, and let the journal feed the forecast.
+                  </div>
+                </div>
+              </div>
+              <div class="workspace-grid">
+                <div class="schedule-card">
+                  <div class="section-title" style="font-size: 1.4rem">
+                    Personal tasks
+                  </div>
+                  <div class="task-form" style="margin-top: 14px">
+                    <input
+                      id="task-input"
+                      type="text"
+                      placeholder="Add a task for today..."
+                    />
+                    <button class="ghost-btn" id="add-task-btn">
+                      <span class="material-symbols-rounded">add</span> Add task
+                    </button>
+                  </div>
+                  <div
+                    class="task-list"
+                    id="custom-task-list"
+                    style="margin-top: 14px"
+                  ></div>
+                </div>
+
+                <div class="schedule-card">
+                  <div class="section-title" style="font-size: 1.4rem">
+                    Daily journal + AI forecast
+                  </div>
+                  <div class="task-form" style="margin-top: 14px">
+                    <textarea
+                      id="journal-input"
+                      rows="7"
+                      placeholder="Tell the tracker what you did today: what you built, what broke, what felt hard, what felt good."
+                    ></textarea>
+                    <button class="ghost-btn" id="save-journal-btn">
+                      <span class="material-symbols-rounded">psychology</span>
+                      Save journal
+                    </button>
+                  </div>
+                  <div
+                    class="ai-card"
+                    id="ai-forecast"
+                    style="margin-top: 14px"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Consistency over time</div>
+                  <div class="section-sub">
+                    A graphical view of your recent momentum, built from your
+                    task completions, DSA, and journal activity.
+                  </div>
+                </div>
+              </div>
+              <div class="analytics-grid">
+                <div class="chart-card">
+                  <div class="chart-head">
+                    <div>
+                      <div class="small-label">14-day consistency</div>
+                      <div class="section-title" style="font-size: 1.35rem">
+                        Momentum graph
+                      </div>
+                    </div>
+                    <div class="status-pill" id="consistency-score-pill">
+                      0%
+                    </div>
+                  </div>
+                  <svg
+                    class="sparkline"
+                    id="consistency-chart"
+                    viewBox="0 0 600 160"
+                    preserveAspectRatio="none"
+                  ></svg>
+                </div>
+
+                <div class="chart-card">
+                  <div class="chart-head">
+                    <div>
+                      <div class="small-label">Activity heatmap</div>
+                      <div class="section-title" style="font-size: 1.35rem">
+                        Weekly footprint
+                      </div>
+                    </div>
+                  </div>
+                  <div class="consistency-kpi">
+                    <div class="stat-card">
+                      <strong id="consistency-streak">0</strong>
+                      <div class="small-label">Current streak</div>
+                    </div>
+                    <div class="stat-card">
+                      <strong id="consistency-average">0%</strong>
+                      <div class="small-label">Avg consistency</div>
+                    </div>
+                    <div class="stat-card">
+                      <strong id="consistency-forecast">0%</strong>
+                      <div class="small-label">Tomorrow momentum</div>
+                    </div>
+                  </div>
+                  <div
+                    class="heatmap"
+                    id="activity-heatmap"
+                    style="margin-top: 14px"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="page-overview" class="page">
+            <div class="hero">
+              <div class="eyebrow">
+                MERN only · 8 months · high intensity then sustain
+              </div>
+              <h1>Build the stack, then ship it.</h1>
+              <p>
+                First 2 months are 8–10 hours a day. After that, drop to 4 hours
+                and keep the quality high. The roadmap compresses five phases
+                into 32 weeks without losing the core philosophy.
+              </p>
+            </div>
+            <div class="overview-grid">
+              <div class="stat-card">
+                <strong>8</strong>
+                <div class="small-label">Months total</div>
+              </div>
+              <div class="stat-card">
+                <strong>5</strong>
+                <div class="small-label">Compressed phases</div>
+              </div>
+              <div class="stat-card">
+                <strong>32</strong>
+                <div class="small-label">Roadmap weeks</div>
+              </div>
+              <div class="stat-card">
+                <strong>MERN</strong>
+                <div class="small-label">MongoDB · Express · React · Node</div>
+              </div>
+            </div>
+            <div class="section" style="margin-top: 18px">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Phase map</div>
+                  <div class="section-sub">
+                    Each phase keeps the implementation-first philosophy, but
+                    the stack stays purely MERN.
+                  </div>
+                </div>
+              </div>
+              <div class="overview-phase-strip" id="overview-phase-strip"></div>
+            </div>
+            <div class="two-up">
+              <div class="section">
+                <div class="section-title" style="font-size: 1.5rem">
+                  What stays constant
+                </div>
+                <div class="checklist" style="margin-top: 14px">
+                  <div class="check-row">
+                    <span class="material-symbols-rounded">check</span>
+                    <div>
+                      <div class="label-text">
+                        DSA stays daily with Love Babbar-style practice.
+                      </div>
+                      <div class="check-meta">
+                        Pattern recognition first, then speed.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="check-row">
+                    <span class="material-symbols-rounded">check</span>
+                    <div>
+                      <div class="label-text">
+                        System design stays in the flow, not as a separate cram
+                        phase.
+                      </div>
+                      <div class="check-meta">
+                        Read, sketch, implement, explain.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="check-row">
+                    <span class="material-symbols-rounded">check</span>
+                    <div>
+                      <div class="label-text">
+                        Docker, CI/CD, Redis, queues, and deployment are part of
+                        the build.
+                      </div>
+                      <div class="check-meta">
+                        Projects must leave the editor and reach production.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="section-title" style="font-size: 1.5rem">
+                  Roadmap rules
+                </div>
+                <div class="bullet-list" style="margin-top: 14px">
+                  <div class="note">
+                    Build first, then document. Each project gets a README,
+                    status, and notes field.
+                  </div>
+                  <div class="note">
+                    The tracker persists in localStorage, so weekly checkboxes,
+                    project states, streaks, and DSA counts survive refreshes.
+                  </div>
+                  <div class="note">
+                    Use the Today page daily. It is the control surface for the
+                    roadmap.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="page-phases" class="page">
+            <div class="hero">
+              <div class="eyebrow">Five phases · MERN depth</div>
+              <h1>Phases</h1>
+              <p>
+                Click into any phase to track progress. Each phase has its own
+                progress bar, checklist, rebuild checkpoint, and project cards
+                with status + notes.
+              </p>
+            </div>
+            <div id="phases-container" class="bullet-list"></div>
+          </section>
+          <section id="page-weekly" class="page">
+            <div class="hero">
+              <div class="eyebrow">32 weeks · print-friendly</div>
+              <h1>Weekly</h1>
+              <p>
+                A compressed 8-month schedule. Each card shows the build task,
+                DSA task, review task, and rebuild checkpoint where relevant.
+              </p>
+            </div>
+            <div class="print-note note">
+              Print view keeps only the weekly cards and removes navigation
+              chrome.
+            </div>
+            <div id="weekly-container" class="week-grid"></div>
+          </section>
+          <section id="page-daily" class="page">
+            <div class="hero">
+              <div class="eyebrow">Two modes · one rule</div>
+              <h1>Daily</h1>
+              <p>
+                First 2 months are a sprint. After that, the work becomes
+                smaller, sharper, and more deliberate.
+              </p>
+            </div>
+            <div class="daily-layout">
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  High intensity mode
+                </div>
+                <div class="section-sub">Weeks 1–8 · 8–10 hours/day</div>
+                <div class="time-row">
+                  <div class="time">60 min</div>
+                  <div>
+                    <strong>DSA warm-up</strong>
+                    <div class="muted">One Love Babbar problem, timed.</div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">2.5 h</div>
+                  <div>
+                    <strong>Main build block</strong>
+                    <div class="muted">
+                      Node/Express/React/Mongo implementation work.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">90 min</div>
+                  <div>
+                    <strong>Project sprint</strong>
+                    <div class="muted">
+                      Ship one meaningful feature end-to-end.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">45 min</div>
+                  <div>
+                    <strong>Docs + review</strong>
+                    <div class="muted">
+                      Read official docs and write a short note about what
+                      broke.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  Sustained mode
+                </div>
+                <div class="section-sub">After month 2 · 4 hours/day</div>
+                <div class="time-row">
+                  <div class="time">45 min</div>
+                  <div>
+                    <strong>DSA practice</strong>
+                    <div class="muted">
+                      Keep the streak alive and revisit old problems.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">2 h</div>
+                  <div>
+                    <strong>Focused build</strong>
+                    <div class="muted">
+                      One feature, one bug fix, or one deployment task.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">45 min</div>
+                  <div>
+                    <strong>System design or CS reading</strong>
+                    <div class="muted">
+                      Sketch, implement, or explain the concept aloud.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">30 min</div>
+                  <div>
+                    <strong>Review + commit</strong>
+                    <div class="muted">
+                      Update README, notes, and tomorrow's plan.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="page-dsa" class="page">
+            <div class="hero">
+              <div class="eyebrow">Language-agnostic patterns</div>
+              <h1>DSA</h1>
+              <p>
+                Keep the pattern grid intact. The point is not a language; it is
+                recognizing the shape of the problem before you code.
+              </p>
+            </div>
+            <div class="two-up">
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  How to solve
+                </div>
+                <div class="time-row">
+                  <div class="time">Step 1</div>
+                  <div>
+                    <strong>Read the problem carefully</strong>
+                    <div class="muted">
+                      Name the pattern before writing code.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Step 2</div>
+                  <div>
+                    <strong>Write the brute force</strong>
+                    <div class="muted">
+                      Prove you understand the constraints.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Step 3</div>
+                  <div>
+                    <strong>Optimize by pattern</strong>
+                    <div class="muted">
+                      Two pointers, sliding window, hashing, graphs, DP.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Step 4</div>
+                  <div>
+                    <strong>Revisit cold</strong>
+                    <div class="muted">
+                      Solve again after a few days without looking back.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  Counter
+                </div>
+                <div class="today-grid" style="margin-top: 14px">
+                  <div class="stat-card">
+                    <strong id="dsa-today-counter">0</strong>
+                    <div class="small-label">Today</div>
+                  </div>
+                  <div class="stat-card">
+                    <strong id="dsa-all-counter">0</strong>
+                    <div class="small-label">All-time</div>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button class="primary-btn" id="dsa-plus-btn">
+                    <span class="material-symbols-rounded">add</span> +1 problem
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Pattern grid</div>
+                  <div class="section-sub">
+                    Keep this language-agnostic and revisit it often.
+                  </div>
+                </div>
+              </div>
+              <div class="pattern-grid" id="pattern-grid"></div>
+            </div>
+          </section>
+          <section id="page-interview" class="page">
+            <div class="hero">
+              <div class="eyebrow">Built from your actual work</div>
+              <h1>Interview</h1>
+              <p>
+                Interview prep comes from the roadmap itself: shipping MERN
+                projects, debugging systems, and explaining trade-offs clearly.
+              </p>
+            </div>
+            <div class="interview-layout">
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  DSA track
+                </div>
+                <div class="time-row">
+                  <div class="time">Months 1–2</div>
+                  <div>
+                    <strong>Foundation patterns</strong>
+                    <div class="muted">
+                      Arrays, hashing, two pointers, stacks, queues.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Months 3–5</div>
+                  <div>
+                    <strong>Timed medium problems</strong>
+                    <div class="muted">
+                      30-minute sessions, with review after every solve.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Months 6–8</div>
+                  <div>
+                    <strong>Mocks and revision</strong>
+                    <div class="muted">
+                      Focus on narration, not silent grinding.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  System design track
+                </div>
+                <div class="time-row">
+                  <div class="time">Months 2–4</div>
+                  <div>
+                    <strong>Foundations</strong>
+                    <div class="muted">
+                      Caching, queues, databases, APIs, CAP trade-offs.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Months 4–7</div>
+                  <div>
+                    <strong>One system each week</strong>
+                    <div class="muted">
+                      Feed, chat, shortener, job queue, dashboard, deployment.
+                    </div>
+                  </div>
+                </div>
+                <div class="time-row">
+                  <div class="time">Month 8</div>
+                  <div>
+                    <strong>Mock interviews</strong>
+                    <div class="muted">
+                      Practice explaining why your design is enough.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title" style="font-size: 1.55rem">
+                Behavioral stories
+              </div>
+              <div
+                class="mindset-grid"
+                style="
+                  margin-top: 14px;
+                  grid-template-columns: repeat(3, minmax(0, 1fr));
+                "
+              >
+                <div class="mindset-card">
+                  <div class="mindset-title">Technical challenge</div>
+                  <div class="mindset-desc">
+                    A hard bug you traced through Node logs, browser state, or
+                    queue retries.
+                  </div>
+                </div>
+                <div class="mindset-card">
+                  <div class="mindset-title">Ownership</div>
+                  <div class="mindset-desc">
+                    The time you added the monitoring, refactor, or deployment
+                    fix nobody asked for.
+                  </div>
+                </div>
+                <div class="mindset-card">
+                  <div class="mindset-title">Failure</div>
+                  <div class="mindset-desc">
+                    A broken release or failed rebuild that taught you how to
+                    debug properly.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section id="page-portfolio" class="page">
+            <div class="hero">
+              <div class="eyebrow">MERN profile positioning</div>
+              <h1>Portfolio</h1>
+              <p>
+                Your GitHub and résumé should read like a MERN engineer who
+                ships, debugs, and documents production-minded projects.
+              </p>
+            </div>
+            <div class="portfolio-layout">
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  GitHub strategy
+                </div>
+                <div class="bullet-list" style="margin-top: 14px">
+                  <div class="note">
+                    Pin the best 6 repos, each with a clear README, screenshots,
+                    setup steps, and architecture notes.
+                  </div>
+                  <div class="note">
+                    Every public repo should show your stack: Node.js, Express,
+                    MongoDB/Mongoose, React, Redis, Docker, JWT, WebSockets,
+                    Kafka or BullMQ, Nginx.
+                  </div>
+                  <div class="note">
+                    Use issues and milestones to show project thinking, not just
+                    code dumps.
+                  </div>
+                </div>
+              </div>
+              <div class="schedule-card">
+                <div class="section-title" style="font-size: 1.55rem">
+                  Résumé strategy
+                </div>
+                <div class="bullet-list" style="margin-top: 14px">
+                  <div class="note">
+                    Write impact bullets: built X, reduced Y, shipped Z.
+                  </div>
+                  <div class="note">
+                    Lead with projects, not a generic skill list.
+                  </div>
+                  <div class="note">
+                    Show deployment, reliability, and measurable outcomes for
+                    each project.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title" style="font-size: 1.55rem">
+                Portfolio timeline
+              </div>
+              <div class="timeline" style="margin-top: 14px">
+                <div class="timeline-item">
+                  <div class="phase-badge">Month 1</div>
+                  <h3 style="margin-top: 10px">
+                    Node, HTTP, Mongo, and the first API
+                  </h3>
+                  <p class="muted">
+                    Show that you can build a clean backend from scratch.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <div class="phase-badge">Month 2</div>
+                  <h3 style="margin-top: 10px">Express auth and React UI</h3>
+                  <p class="muted">
+                    Ship a protected app with forms, validation, and persistent
+                    data.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <div class="phase-badge">Months 3–4</div>
+                  <h3 style="margin-top: 10px">Realtime features and Redis</h3>
+                  <p class="muted">
+                    Presence, notifications, and collaborative state.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <div class="phase-badge">Months 5–6</div>
+                  <h3 style="margin-top: 10px">
+                    Queues, Kafka, Docker, Nginx, CI/CD
+                  </h3>
+                  <p class="muted">
+                    Move beyond CRUD and into resilient delivery.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <div class="phase-badge">Months 7–8</div>
+                  <h3 style="margin-top: 10px">Capstone + public case study</h3>
+                  <p class="muted">
+                    A product-style repo, a walkthrough, and a resume refresh.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section id="page-mindset" class="page">
+            <div class="hero">
+              <div class="eyebrow">Operating principles</div>
+              <h1>Mindset</h1>
+              <p>
+                The meta-skill is still how you think: first principles,
+                trade-offs, and a bias toward reading source and debugging
+                carefully.
+              </p>
+            </div>
+            <div class="mindset-grid">
+              <div class="mindset-card">
+                <div class="mindset-title">Reason from first principles</div>
+                <div class="mindset-desc">
+                  Do not just use Node, React, or Mongo. Understand why the APIs
+                  behave the way they do.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Separate problem from solution</div>
+                <div class="mindset-desc">
+                  Clarify the user, the constraints, and the success metric
+                  before coding.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Optimize for debug ability</div>
+                <div class="mindset-desc">
+                  Readable code, logs, and tests matter more than cleverness.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Think in trade-offs</div>
+                <div class="mindset-desc">
+                  Monolith vs microservice, SQL vs Mongo, caching vs freshness,
+                  time vs quality.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Work backwards from impact</div>
+                <div class="mindset-desc">
+                  Measure what changed. If you cannot measure it, you cannot
+                  explain it.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Embrace being stuck</div>
+                <div class="mindset-desc">
+                  Struggle first, then search. That is how understanding sticks.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Read the error</div>
+                <div class="mindset-desc">
+                  The stack trace is data. Form a hypothesis before changing
+                  code.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Abstract late</div>
+                <div class="mindset-desc">
+                  Make it work, make it right, make it fast. In that order.
+                </div>
+              </div>
+              <div class="mindset-card">
+                <div class="mindset-title">Ship weekly</div>
+                <div class="mindset-desc">
+                  No week should pass without a visible increment in the
+                  roadmap.
+                </div>
+              </div>
+            </div>
+          </section>
+          <section id="page-traps" class="page">
+            <div class="hero">
+              <div class="eyebrow">What to avoid</div>
+              <h1>Traps</h1>
+              <p>
+                These are the time sinks that usually derail self-taught
+                engineers: too much watching, too little shipping, and too many
+                unrelated stack changes.
+              </p>
+            </div>
+            <div class="traps-grid">
+              <div class="trap-card">
+                <div class="trap-title">Tutorial drift</div>
+                <div class="trap-desc">
+                  Watching five walkthroughs and building nothing durable.
+                </div>
+              </div>
+              <div class="trap-card">
+                <div class="trap-title">Framework hopping</div>
+                <div class="trap-desc">
+                  Jumping away from MERN before you can ship one full product.
+                </div>
+              </div>
+              <div class="trap-card">
+                <div class="trap-title">CRUD without depth</div>
+                <div class="trap-desc">
+                  Building forms without validation, auth, indexes, and deploys.
+                </div>
+              </div>
+              <div class="trap-card">
+                <div class="trap-title">Socket spaghetti</div>
+                <div class="trap-desc">
+                  Using WebSockets without state, backpressure, or clear event
+                  names.
+                </div>
+              </div>
+              <div class="trap-card">
+                <div class="trap-title">Queue cargo culting</div>
+                <div class="trap-desc">
+                  Adding BullMQ or Kafka without understanding retries,
+                  ordering, or idempotency.
+                </div>
+              </div>
+              <div class="trap-card">
+                <div class="trap-title">Fake progress</div>
+                <div class="trap-desc">
+                  Polishing the tracker instead of using it to produce actual
+                  work.
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "mern-roadmap-tracker-v1";
+      const ROADMAP_WEEKS = 32;
+
+      const phaseData = [
+        {
+          id: "phase1",
+          color: "#7d927d",
+          title: "Foundations",
+          weeks: "Weeks 1–6",
+          mode: "8–10h/day",
+          summary:
+            "Node.js runtime basics, HTTP, MongoDB, and the first habit of rebuilding what you learn.",
+          checklist: [
+            {
+              id: "p1-1",
+              text: "Set up a clean Node.js workflow with scripts, linting, and logging.",
+            },
+            {
+              id: "p1-2",
+              text: "Build a tiny HTTP router and understand request/response flow.",
+            },
+            {
+              id: "p1-3",
+              text: "Model MongoDB data with Mongoose validation and indexes.",
+            },
+            {
+              id: "p1-4",
+              text: "Rebuild checkpoint: recreate the phase from memory without notes.",
+              checkpoint: true,
+            },
+          ],
+          projects: [
+            {
+              id: "proj-p1-1",
+              title: "Node Request Lab",
+              desc: "A raw Node.js server with custom routing, middleware-like helpers, and structured logs.",
+              tags: ["Node.js", "HTTP", "Logging"],
+            },
+            {
+              id: "proj-p1-2",
+              title: "Mongo Sketchbook API",
+              desc: "A notes API using Express and Mongoose with schema validation, pagination, and search.",
+              tags: ["Express", "MongoDB", "Mongoose"],
+            },
+            {
+              id: "proj-p1-3",
+              title: "CLI Validator + Seeder",
+              desc: "A tiny developer tool for seeding local data, validating payloads, and checking environment config.",
+              tags: ["Node.js", "DX", "Utilities"],
+            },
+          ],
+        },
+        {
+          id: "phase2",
+          color: "#b9745a",
+          title: "Express and Auth",
+          weeks: "Weeks 7–12",
+          mode: "8–10h/day",
+          summary:
+            "Turn the backend into a product: auth, validation, React UI, and clean CRUD boundaries.",
+          checklist: [
+            {
+              id: "p2-1",
+              text: "Build Express middleware, validation, and consistent error handling.",
+            },
+            {
+              id: "p2-2",
+              text: "Add JWT auth with refresh tokens and role-based access control.",
+            },
+            {
+              id: "p2-3",
+              text: "Connect a React client with forms, routes, and loading states.",
+            },
+            {
+              id: "p2-4",
+              text: "Rebuild checkpoint: recreate auth and routing from scratch.",
+              checkpoint: true,
+            },
+          ],
+          projects: [
+            {
+              id: "proj-p2-1",
+              title: "Auth Service",
+              desc: "Express login, refresh token rotation, protected routes, and secure session handling with MongoDB.",
+              tags: ["Express", "JWT", "MongoDB"],
+            },
+            {
+              id: "proj-p2-2",
+              title: "React Task Dashboard",
+              desc: "A React dashboard with forms, filters, client routing, and optimistic UI updates.",
+              tags: ["React", "UI", "Forms"],
+            },
+            {
+              id: "proj-p2-3",
+              title: "MERN CRUD Platform",
+              desc: "A polished full-stack CRUD app with protected endpoints, reusable components, and deployment-ready structure.",
+              tags: ["MERN", "CRUD", "Deployment"],
+            },
+          ],
+        },
+        {
+          id: "phase3",
+          color: "#c58c4d",
+          title: "Realtime Product Work",
+          weeks: "Weeks 13–18",
+          mode: "4h/day",
+          summary:
+            "Add realtime layers, cache, and deployment discipline while the daily hours shrink.",
+          checklist: [
+            {
+              id: "p3-1",
+              text: "Ship a Socket.io feature with clear events and disconnected-state handling.",
+            },
+            {
+              id: "p3-2",
+              text: "Add Redis for cache, presence, or lightweight coordination.",
+            },
+            {
+              id: "p3-3",
+              text: "Dockerize the full stack and document local setup.",
+            },
+            {
+              id: "p3-4",
+              text: "Rebuild checkpoint: recreate the realtime stack and deployment path.",
+              checkpoint: true,
+            },
+          ],
+          projects: [
+            {
+              id: "proj-p3-1",
+              title: "Realtime Whiteboard",
+              desc: "A Socket.io collaboration app with cursors, room presence, and React state synchronization.",
+              tags: ["React", "Socket.io", "Redis"],
+            },
+            {
+              id: "proj-p3-2",
+              title: "Notification Center",
+              desc: "Realtime alerts, read states, and a small event stream backed by Node and MongoDB.",
+              tags: ["Node.js", "Realtime", "MongoDB"],
+            },
+            {
+              id: "proj-p3-3",
+              title: "Upload and Preview Pipeline",
+              desc: "File upload, validation, preview generation, and clean failure states in Express.",
+              tags: ["Express", "Files", "UX"],
+            },
+          ],
+        },
+        {
+          id: "phase4",
+          color: "#6b7c8f",
+          title: "Scale and Delivery",
+          weeks: "Weeks 19–26",
+          mode: "4h/day",
+          summary:
+            "Queues, Kafka, Docker, Nginx, and CI/CD. This is where the app starts acting like a system.",
+          checklist: [
+            {
+              id: "p4-1",
+              text: "Add BullMQ workers with retries and dead-letter handling.",
+            },
+            {
+              id: "p4-2",
+              text: "Introduce Kafka events for a clearly separated async workflow.",
+            },
+            {
+              id: "p4-3",
+              text: "Run the stack behind Docker and Nginx with CI/CD in place.",
+            },
+            {
+              id: "p4-4",
+              text: "Rebuild checkpoint: recreate the queue + delivery pipeline.",
+              checkpoint: true,
+            },
+          ],
+          projects: [
+            {
+              id: "proj-p4-1",
+              title: "BullMQ Job Center",
+              desc: "A job processing backend with retries, queue dashboards, and worker separation.",
+              tags: ["BullMQ", "Redis", "Workers"],
+            },
+            {
+              id: "proj-p4-2",
+              title: "Kafka Event Stream Demo",
+              desc: "An event-driven service boundary that pushes events through Kafka and consumes them in Node.",
+              tags: ["Kafka", "Node.js", "Events"],
+            },
+            {
+              id: "proj-p4-3",
+              title: "Nginx + Docker Delivery Shell",
+              desc: "Multi-stage images, reverse proxying, environment setup, and a deployable local-production mirror.",
+              tags: ["Docker", "Nginx", "CI/CD"],
+            },
+          ],
+        },
+        {
+          id: "phase5",
+          color: "#7d6ea8",
+          title: "Interview, Portfolio, and Capstone",
+          weeks: "Weeks 27–32",
+          mode: "4h/day",
+          summary:
+            "Turn the work into a story: system design, resume polish, public case studies, and a capstone launch.",
+          checklist: [
+            {
+              id: "p5-1",
+              text: "Write one system design doc each week and explain the trade-offs aloud.",
+            },
+            {
+              id: "p5-2",
+              text: "Audit the capstone for bugs, reliability, and presentation quality.",
+            },
+            {
+              id: "p5-3",
+              text: "Refresh GitHub pins, README structure, and résumé bullets around MERN impact.",
+            },
+            {
+              id: "p5-4",
+              text: "Rebuild checkpoint: recreate the final capstone flow from memory.",
+              checkpoint: true,
+            },
+          ],
+          projects: [
+            {
+              id: "proj-p5-1",
+              title: "Capstone SaaS",
+              desc: "A production-minded MERN app with auth, dashboards, queues, and deployment polish.",
+              tags: ["MERN", "Docker", "Production"],
+            },
+            {
+              id: "proj-p5-2",
+              title: "System Design Case Study",
+              desc: "A public write-up that compares two architectures and explains the trade-offs clearly.",
+              tags: ["System Design", "Writing", "Architecture"],
+            },
+            {
+              id: "proj-p5-3",
+              title: "Public Portfolio Repo",
+              desc: "A profile repo that ties the roadmap together with links, screenshots, and concise summaries.",
+              tags: ["GitHub", "Résumé", "Portfolio"],
+            },
+          ],
+        },
+      ];
+
+      const weeklyData = [
+        {
+          week: 1,
+          phaseId: "phase1",
+          title: "Node runtime and repo bootstrap",
+          summary:
+            "Set up the repo, scripts, env vars, and logging discipline.",
+          tasks: [
+            "Create the Node project and folder structure.",
+            "Write a tiny HTTP server and custom router.",
+            "Solve 3 DSA warm-up problems.",
+          ],
+          projectId: "proj-p1-1",
+        },
+        {
+          week: 2,
+          phaseId: "phase1",
+          title: "HTTP flow and request parsing",
+          summary:
+            "Read requests carefully and trace how data moves through a server.",
+          tasks: [
+            "Add middleware-like helpers and error handling.",
+            "Parse headers, query params, and body payloads.",
+            "Review the event loop and callbacks.",
+          ],
+          projectId: "proj-p1-1",
+        },
+        {
+          week: 3,
+          phaseId: "phase1",
+          title: "MongoDB modeling and validation",
+          summary: "Model data with Mongoose and keep indexes intentional.",
+          tasks: [
+            "Build schemas and validation rules.",
+            "Add CRUD routes for notes or tasks.",
+            "Revisit two pointer / hashing problems.",
+          ],
+          projectId: "proj-p1-2",
+        },
+        {
+          week: 4,
+          phaseId: "phase1",
+          title: "Checkpoint and rebuild",
+          summary:
+            "Delete assumptions and recreate the first phase from memory.",
+          tasks: [
+            "Rebuild the Node server from scratch.",
+            "Recreate the Mongo schema and CRUD routes.",
+            "Write a short post-mortem.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p1-2",
+        },
+        {
+          week: 5,
+          phaseId: "phase1",
+          title: "Express fundamentals",
+          summary:
+            "Move from raw Node to route structure, middleware, and validation.",
+          tasks: [
+            "Convert the server to Express.",
+            "Add validation and consistent errors.",
+            "Solve 3 stack / queue problems.",
+          ],
+          projectId: "proj-p1-3",
+        },
+        {
+          week: 6,
+          phaseId: "phase1",
+          title: "Mongo queries and review",
+          summary:
+            "Use indexes, pagination, and basic search on your data layer.",
+          tasks: [
+            "Add filtering, pagination, and search.",
+            "Refactor the README and setup notes.",
+            "Do the phase rebuild checkpoint.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p1-3",
+        },
+        {
+          week: 7,
+          phaseId: "phase2",
+          title: "JWT auth and protected routes",
+          summary: "Login, refresh tokens, and role-aware route protection.",
+          tasks: [
+            "Create auth endpoints and token flow.",
+            "Protect one private route.",
+            "Solve 3 binary search problems.",
+          ],
+          projectId: "proj-p2-1",
+        },
+        {
+          week: 8,
+          phaseId: "phase2",
+          title: "React forms and client routing",
+          summary:
+            "Ship the first serious frontend and keep the state readable.",
+          tasks: [
+            "Build forms and route guards in React.",
+            "Connect the client to the auth API.",
+            "Rebuild the auth flow from memory.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p2-2",
+        },
+        {
+          week: 9,
+          phaseId: "phase2",
+          title: "CRUD product screen",
+          summary: "Turn the backend into a usable app with a clean interface.",
+          tasks: [
+            "Build a dashboard view for records.",
+            "Add create/edit/delete flows.",
+            "Review tree traversal patterns.",
+          ],
+          projectId: "proj-p2-2",
+        },
+        {
+          week: 10,
+          phaseId: "phase2",
+          title: "Validation and edge cases",
+          summary: "Make the app unpleasant to break.",
+          tasks: [
+            "Add input validation and empty states.",
+            "Document the API contract.",
+            "Solve 3 graph traversal problems.",
+          ],
+          projectId: "proj-p2-3",
+        },
+        {
+          week: 11,
+          phaseId: "phase2",
+          title: "Mongo polish and search",
+          summary: "Tighten the data model and make retrieval easy.",
+          tasks: [
+            "Add indexes and better queries.",
+            "Implement search and filtering.",
+            "Write notes on what broke most.",
+          ],
+          projectId: "proj-p2-3",
+        },
+        {
+          week: 12,
+          phaseId: "phase2",
+          title: "Checkpoint and refactor",
+          summary:
+            "Rebuild auth + routing from memory and clean the code paths.",
+          tasks: [
+            "Rebuild the auth flow.",
+            "Refactor the React client structure.",
+            "Do the phase rebuild checkpoint.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p2-1",
+        },
+        {
+          week: 13,
+          phaseId: "phase3",
+          title: "Socket.io rooms and presence",
+          summary:
+            "Add realtime collaboration with explicit events and room logic.",
+          tasks: [
+            "Create room join / leave flow.",
+            "Sync one realtime UI surface.",
+            "Solve 3 sliding window problems.",
+          ],
+          projectId: "proj-p3-1",
+        },
+        {
+          week: 14,
+          phaseId: "phase3",
+          title: "Realtime state and reconciliation",
+          summary: "Handle disconnects, stale state, and rejoin behaviour.",
+          tasks: [
+            "Persist live state carefully.",
+            "Handle reconnects and missed updates.",
+            "Revisit a previous DSA pattern.",
+          ],
+          projectId: "proj-p3-1",
+        },
+        {
+          week: 15,
+          phaseId: "phase3",
+          title: "Redis cache and coordination",
+          summary:
+            "Use Redis for cache, presence, or lightweight coordination.",
+          tasks: [
+            "Add a cache-aside read path.",
+            "Store presence or session hints in Redis.",
+            "Review hash map and caching ideas.",
+          ],
+          projectId: "proj-p3-2",
+        },
+        {
+          week: 16,
+          phaseId: "phase3",
+          title: "Uploads and previews",
+          summary: "Ship file upload handling and clean failure states.",
+          tasks: [
+            "Validate file size and type.",
+            "Render previews and errors clearly.",
+            "Rebuild the week 13–15 realtime stack.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p3-3",
+        },
+        {
+          week: 17,
+          phaseId: "phase3",
+          title: "Dockerize the stack",
+          summary: "Build repeatable local and deployment environments.",
+          tasks: [
+            "Write a Dockerfile and compose setup.",
+            "Test env vars and startup flow.",
+            "Solve 3 dynamic programming warm-ups.",
+          ],
+          projectId: "proj-p3-3",
+        },
+        {
+          week: 18,
+          phaseId: "phase3",
+          title: "Release polish",
+          summary: "Clean README, fix bugs, and rebuild the phase from memory.",
+          tasks: [
+            "Polish the UI and error states.",
+            "Write a short release note.",
+            "Do the phase rebuild checkpoint.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p3-2",
+        },
+        {
+          week: 19,
+          phaseId: "phase4",
+          title: "BullMQ workers",
+          summary:
+            "Introduce queue-based background work with retries and visibility.",
+          tasks: [
+            "Write a worker and queue producer.",
+            "Add retry and dead-letter behaviour.",
+            "Review recursion and tree patterns.",
+          ],
+          projectId: "proj-p4-1",
+        },
+        {
+          week: 20,
+          phaseId: "phase4",
+          title: "Event-driven split",
+          summary: "Use Kafka to push work across boundaries cleanly.",
+          tasks: [
+            "Emit events from one service surface.",
+            "Consume and react in a separate worker.",
+            "Document why the split exists.",
+          ],
+          projectId: "proj-p4-2",
+        },
+        {
+          week: 21,
+          phaseId: "phase4",
+          title: "Docker and Nginx delivery",
+          summary: "Add reverse proxying and deployable images.",
+          tasks: [
+            "Create multi-stage builds.",
+            "Proxy traffic through Nginx.",
+            "Solve one long-form DSA session.",
+          ],
+          projectId: "proj-p4-3",
+        },
+        {
+          week: 22,
+          phaseId: "phase4",
+          title: "CI/CD pipeline",
+          summary: "Make builds repeatable with automated checks.",
+          tasks: [
+            "Run tests on every push.",
+            "Add build and deploy steps.",
+            "Write down pipeline failures.",
+          ],
+          projectId: "proj-p4-3",
+        },
+        {
+          week: 23,
+          phaseId: "phase4",
+          title: "Rate limiting and abuse control",
+          summary: "Protect the API and measure the effect.",
+          tasks: [
+            "Implement a rate limiter.",
+            "Add sane error messages.",
+            "Revisit graph and DP patterns.",
+          ],
+          projectId: "proj-p4-1",
+        },
+        {
+          week: 24,
+          phaseId: "phase4",
+          title: "Observability and logs",
+          summary: "Make failures visible before they become outages.",
+          tasks: [
+            "Add structured logs and request IDs.",
+            "Track latency and failures.",
+            "Review what the dashboards reveal.",
+          ],
+          projectId: "proj-p4-2",
+        },
+        {
+          week: 25,
+          phaseId: "phase4",
+          title: "Queue and cache resilience",
+          summary: "Test what happens when Redis or a worker misbehaves.",
+          tasks: [
+            "Simulate a worker failure.",
+            "Confirm the app still responds.",
+            "Write a short failure note.",
+          ],
+          projectId: "proj-p4-1",
+        },
+        {
+          week: 26,
+          phaseId: "phase4",
+          title: "Phase rebuild checkpoint",
+          summary: "Recreate the queue and deployment path from memory.",
+          tasks: [
+            "Rebuild the worker flow.",
+            "Rebuild the deploy path.",
+            "Do the phase rebuild checkpoint.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p4-3",
+        },
+        {
+          week: 27,
+          phaseId: "phase5",
+          title: "System design: feeds and timelines",
+          summary: "Practice explaining fanout, caching, and consistency.",
+          tasks: [
+            "Sketch a feed architecture.",
+            "Explain the trade-offs out loud.",
+            "Solve 3 interview-style problems.",
+          ],
+          projectId: "proj-p5-2",
+        },
+        {
+          week: 28,
+          phaseId: "phase5",
+          title: "Interview rounds and portfolio polish",
+          summary: "Turn your work into a clean, readable story.",
+          tasks: [
+            "Trim the resume to one page.",
+            "Pin the strongest repos.",
+            "Rebuild the phase 5 checklist.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p5-3",
+        },
+        {
+          week: 29,
+          phaseId: "phase5",
+          title: "Capstone feature freeze",
+          summary: "Freeze scope and make the product coherent.",
+          tasks: [
+            "Finish the high-value feature set.",
+            "Fix the most visible bugs.",
+            "Write release notes.",
+          ],
+          projectId: "proj-p5-1",
+        },
+        {
+          week: 30,
+          phaseId: "phase5",
+          title: "Capstone QA and bug bash",
+          summary: "Test the product like it already shipped.",
+          tasks: [
+            "Run a manual QA pass.",
+            "Fix anything that hurts the demo.",
+            "Review your deployment path.",
+          ],
+          projectId: "proj-p5-1",
+        },
+        {
+          week: 31,
+          phaseId: "phase5",
+          title: "System design case study",
+          summary: "Write and record one strong architecture breakdown.",
+          tasks: [
+            "Publish the case study.",
+            "Record a walkthrough.",
+            "Solve a final revision set.",
+          ],
+          projectId: "proj-p5-2",
+        },
+        {
+          week: 32,
+          phaseId: "phase5",
+          title: "Final ship and retrospective",
+          summary:
+            "Finish the roadmap, clean the profile, and reflect honestly.",
+          tasks: [
+            "Ship the capstone and recap the metrics.",
+            "Update the GitHub profile and résumé links.",
+            "Do the final rebuild checkpoint.",
+          ],
+          checkpoint: true,
+          projectId: "proj-p5-3",
+        },
+      ];
+
+      const patternData = [
+        ["Two Pointers", "Sorted array, pair sum, palindrome"],
+        ["Sliding Window", "Substring / subarray with constraints"],
+        ["Fast and Slow Pointers", "Cycle detection, middle of list"],
+        ["Merge Intervals", "Overlap handling and scheduling"],
+        ["Cyclic Sort", "Array contains 1 to N"],
+        ["In-place Linked List Reversal", "Reverse a list without extra space"],
+        ["Tree BFS", "Level-order, zigzag, right view"],
+        ["Tree DFS", "Path sum, diameter, LCA"],
+        ["Two Heaps", "Median, scheduling, K closest"],
+        ["Subsets / Backtracking", "Combinations, permutations, N-Queens"],
+        ["Modified Binary Search", "Rotated arrays, search on answer"],
+        ["Top K Elements", "Heap-based frequency / value problems"],
+        ["K-way Merge", "Merge K sorted lists or arrays"],
+        ["Topological Sort", "Course schedule, DAG build order"],
+        ["0/1 Knapsack DP", "Include / exclude decisions"],
+        ["Unbounded Knapsack", "Coin change, cutting rod"],
+        ["Fibonacci DP", "Climbing stairs, house robber"],
+        ["Palindrome DP", "Longest palindrome substring / subsequence"],
+      ];
+
+      function defaultState() {
+        return {
+          roadmapStartDate: "",
+          lastActiveDate: "",
+          streak: 0,
+          todayDone: "",
+          dsa: { total: 0, byDate: {} },
+          checks: {},
+          projectStatus: {},
+          projectNotes: {},
+          customTasks: [],
+          dailyJournal: {},
+        };
+      }
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw
+            ? { ...defaultState(), ...JSON.parse(raw) }
+            : defaultState();
+        } catch {
+          return defaultState();
+        }
+      }
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+      function todayKey() {
+        return new Date().toISOString().slice(0, 10);
+      }
+      function daysBetween(a, b) {
+        const one = new Date(`${a}T12:00:00`);
+        const two = new Date(`${b}T12:00:00`);
+        return Math.round((one - two) / 86400000);
+      }
+      function recordActivity() {
+        const current = todayKey();
+        if (state.lastActiveDate === current) return;
+        if (!state.lastActiveDate) state.streak = 1;
+        else
+          state.streak =
+            daysBetween(current, state.lastActiveDate) === 1
+              ? state.streak + 1
+              : 1;
+        state.lastActiveDate = current;
+        saveState();
+      }
+
+      const state = loadState();
+      if (!state.roadmapStartDate) {
+        state.roadmapStartDate = todayKey();
+        saveState();
+      }
+      recordActivity();
+
+      function currentWeekNumber() {
+        const start = new Date(`${state.roadmapStartDate}T12:00:00`);
+        const now = new Date(`${todayKey()}T12:00:00`);
+        const weeks = Math.floor((now - start) / 604800000) + 1;
+        return Math.max(1, Math.min(ROADMAP_WEEKS, weeks));
+      }
+      function currentWeekData() {
+        const week = currentWeekNumber();
+        return weeklyData[week - 1] || weeklyData[weeklyData.length - 1];
+      }
+      function phaseForWeek(weekNumber) {
+        return (
+          phaseData.find((phase) => {
+            const range = phase.weeks.match(/Weeks (\d+)–(\d+)/);
+            if (!range) return false;
+            return (
+              weekNumber >= Number(range[1]) && weekNumber <= Number(range[2])
+            );
+          }) || phaseData[0]
+        );
+      }
+      function allProjectMap() {
+        const map = {};
+        phaseData.forEach((phase) =>
+          phase.projects.forEach((project) => {
+            map[project.id] = project;
+          }),
+        );
+        return map;
+      }
+      function projectScore(status) {
+        return (
+          { "not-started": 0, "in-progress": 1, shipped: 2, reviewed: 3 }[
+            status
+          ] ?? 0
+        );
+      }
+      function overallProgress() {
+        const items = [];
+        phaseData.forEach((phase) =>
+          phase.checklist.forEach((item) =>
+            items.push(Boolean(state.checks[item.id])),
+          ),
+        );
+        weeklyData.forEach((week) => {
+          week.tasks.forEach((_, index) =>
+            items.push(Boolean(state.checks[`week-${week.week}-${index}`])),
+          );
+          if (week.checkpoint)
+            items.push(Boolean(state.checks[`week-${week.week}-checkpoint`]));
+        });
+        state.customTasks.forEach((task) => items.push(Boolean(task.done)));
+        Object.keys(allProjectMap()).forEach((id) =>
+          items.push(
+            projectScore(state.projectStatus[id] || "not-started") > 0,
+          ),
+        );
+        return Math.round(
+          (items.filter(Boolean).length / (items.length || 1)) * 100,
+        );
+      }
+      function phaseProgress(phase) {
+        const total = phase.checklist.length || 1;
+        const complete = phase.checklist.filter(
+          (item) => state.checks[item.id],
+        ).length;
+        return Math.round((complete / total) * 100);
+      }
+      function weekProgress(week) {
+        const total = week.tasks.length + (week.checkpoint ? 1 : 0);
+        const complete =
+          week.tasks.reduce(
+            (count, _, index) =>
+              count +
+              Number(Boolean(state.checks[`week-${week.week}-${index}`])),
+            0,
+          ) +
+          (week.checkpoint && state.checks[`week-${week.week}-checkpoint`]
+            ? 1
+            : 0);
+        return Math.round((complete / (total || 1)) * 100);
+      }
+      function formatDate(dateString) {
+        return new Intl.DateTimeFormat("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        }).format(new Date(`${dateString}T12:00:00`));
+      }
+      function formatShortDate(dateString) {
+        return new Intl.DateTimeFormat("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }).format(new Date(`${dateString}T12:00:00`));
+      }
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function todayTasks() {
+        return state.customTasks
+          .filter((task) => task.date === todayKey())
+          .sort((a, b) => a.createdAt - b.createdAt);
+      }
+
+      function setDailyJournal(date, value) {
+        state.dailyJournal[date] = value;
+        saveState();
+        recordActivity();
+      }
+
+      function scoreForDate(date) {
+        const tasks = state.customTasks.filter((task) => task.date === date);
+        const doneTasks = tasks.filter((task) => task.done).length;
+        const taskScore = tasks.length
+          ? Math.round((doneTasks / tasks.length) * 55)
+          : 0;
+        const dsaScore = Math.min(20, (state.dsa.byDate?.[date] || 0) * 8);
+        const journalScore = state.dailyJournal[date]?.trim() ? 15 : 0;
+        const doneScore = state.todayDone === date ? 10 : 0;
+        return Math.min(100, taskScore + dsaScore + journalScore + doneScore);
+      }
+
+      function predictionForToday() {
+        const date = todayKey();
+        const journal = state.dailyJournal[date] || "";
+        const tasks = todayTasks();
+        const doneTasks = tasks.filter((task) => task.done).length;
+        const activityScore = scoreForDate(date);
+        const lower = journal.toLowerCase();
+        const positiveHints = [
+          "shipped",
+          "fixed",
+          "deployed",
+          "done",
+          "clear",
+          "confident",
+          "good",
+          "flow",
+        ];
+        const struggleHints = [
+          "stuck",
+          "bug",
+          "blocked",
+          "slow",
+          "confused",
+          "failed",
+          "error",
+          "messy",
+        ];
+        const positiveCount = positiveHints.filter((word) =>
+          lower.includes(word),
+        ).length;
+        const struggleCount = struggleHints.filter((word) =>
+          lower.includes(word),
+        ).length;
+        const momentum = Math.max(
+          10,
+          Math.min(98, activityScore + positiveCount * 6 - struggleCount * 5),
+        );
+        const risk = Math.max(
+          4,
+          Math.min(92, 100 - momentum + struggleCount * 4),
+        );
+        const tomorrow =
+          momentum > 72
+            ? "You are likely to ship one more meaningful feature tomorrow."
+            : momentum > 45
+              ? "You will probably keep moving, but one clear priority will matter."
+              : "Tomorrow is likely to be fragile unless you reduce scope and remove friction.";
+        const focus =
+          doneTasks < tasks.length
+            ? "Finish the remaining planned tasks before adding anything new."
+            : positiveCount > struggleCount
+              ? "Push the current project one step closer to shipped."
+              : "Write down the bug you learned from and turn it into a tiny fix.";
+        const personality =
+          struggleCount > positiveCount
+            ? "The forecast reads cautious, but recoverable."
+            : "The forecast reads strong and upward.";
+        return {
+          momentum,
+          risk,
+          tomorrow,
+          focus,
+          personality,
+        };
+      }
+
+      function analyticsSeries(days = 14) {
+        const series = [];
+        for (let offset = days - 1; offset >= 0; offset -= 1) {
+          const date = new Date();
+          date.setDate(date.getDate() - offset);
+          const key = date.toISOString().slice(0, 10);
+          series.push({
+            date: key,
+            score: scoreForDate(key),
+            label: new Intl.DateTimeFormat("en-US", {
+              month: "short",
+              day: "numeric",
+            }).format(date),
+          });
+        }
+        return series;
+      }
+
+      function renderTaskManager() {
+        const list = document.getElementById("custom-task-list");
+        const tasks = todayTasks();
+        list.innerHTML = tasks.length
+          ? tasks
+              .map(
+                (task) =>
+                  `<div class="task-item ${task.done ? "done" : ""}"><input type="checkbox" data-task-toggle="${task.id}" ${task.done ? "checked" : ""} /><div class="task-text">${escapeHtml(task.text)}</div><button class="danger-btn" data-task-delete="${task.id}"><span class="material-symbols-rounded">delete</span></button></div>`,
+              )
+              .join("")
+          : `<div class="note">No custom tasks yet. Add one above to track your own work for today.</div>`;
+
+        const journal = document.getElementById("journal-input");
+        if (journal && journal !== document.activeElement) {
+          journal.value = state.dailyJournal[todayKey()] || "";
+        }
+      }
+
+      function renderAnalytics() {
+        const series = analyticsSeries(14);
+        const max = 100;
+        const points = series
+          .map((point, index) => {
+            const x = (index / Math.max(series.length - 1, 1)) * 560 + 20;
+            const y = 140 - (point.score / max) * 110;
+            return `${x},${y}`;
+          })
+          .join(" ");
+        const path = series
+          .map((point, index) => {
+            const x = (index / Math.max(series.length - 1, 1)) * 560 + 20;
+            const y = 140 - (point.score / max) * 110;
+            return `${index === 0 ? "M" : "L"}${x} ${y}`;
+          })
+          .join(" ");
+        const chart = document.getElementById("consistency-chart");
+        chart.innerHTML = `
+          <defs>
+            <linearGradient id="lineGrad" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stop-color="#89a08c" />
+              <stop offset="100%" stop-color="#caa167" />
+            </linearGradient>
+          </defs>
+          <polyline fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" points="${points}" />
+          <path d="${path}" fill="none" stroke="url(#lineGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          ${series
+            .map((point, index) => {
+              const x = (index / Math.max(series.length - 1, 1)) * 560 + 20;
+              const y = 140 - (point.score / max) * 110;
+              return `<circle cx="${x}" cy="${y}" r="5" fill="#0b0d10" stroke="#caa167" stroke-width="2" />`;
+            })
+            .join("")}
+          ${series
+            .map((point, index) => {
+              const x = (index / Math.max(series.length - 1, 1)) * 560 + 20;
+              return `<text x="${x}" y="154" fill="#a5a3a0" font-size="10" text-anchor="middle">${point.label}</text>`;
+            })
+            .join("")}
+        `;
+
+        const heatmap = document.getElementById("activity-heatmap");
+        const recent = analyticsSeries(28);
+        heatmap.innerHTML = recent
+          .map((point) => {
+            const heat = Math.max(0.06, point.score / 100);
+            return `<div class="heat-cell" style="--heat:${heat}"><span>${point.score}</span></div>`;
+          })
+          .join("");
+
+        const avg = Math.round(
+          series.reduce((sum, item) => sum + item.score, 0) / series.length,
+        );
+        const forecast = predictionForToday();
+        document.getElementById("consistency-score-pill").textContent =
+          `${avg}% avg`;
+        document.getElementById("consistency-streak").textContent = String(
+          state.streak || 0,
+        );
+        document.getElementById("consistency-average").textContent = `${avg}%`;
+        document.getElementById("consistency-forecast").textContent =
+          `${forecast.momentum}%`;
+      }
+
+      function renderForecast() {
+        const forecast = predictionForToday();
+        const journal = state.dailyJournal[todayKey()] || "";
+        const tasks = todayTasks();
+        const doneTasks = tasks.filter((task) => task.done).length;
+        const totalTasks = tasks.length;
+        document.getElementById("ai-forecast").innerHTML = `
+          <div class="chart-head">
+            <div>
+              <div class="small-label">AI forecast</div>
+              <div class="section-title" style="font-size: 1.35rem">Projected momentum</div>
+            </div>
+            <div class="status-pill">${forecast.momentum}% confident</div>
+          </div>
+          <div class="meter"><div style="width:${forecast.momentum}%"></div></div>
+          <div class="forecast-list">
+            <div class="forecast-pill">${escapeHtml(forecast.personality)}</div>
+            <div class="forecast-pill">Tomorrow: ${escapeHtml(forecast.tomorrow)}</div>
+            <div class="forecast-pill">Focus: ${escapeHtml(forecast.focus)}</div>
+            <div class="forecast-pill">Risk level: ${forecast.risk}%</div>
+            <div class="forecast-pill">Today checked tasks: ${doneTasks}/${totalTasks}</div>
+            <div class="forecast-pill">Journal signal: ${journal.trim() ? "present" : "missing"}</div>
+          </div>
+        `;
+      }
+
+      function checkpointDateMarkup(id) {
+        if (!state.checks[id]) return "Not completed yet.";
+        return `Completed on ${formatShortDate(state.checks[`${id}:date`] || todayKey())}`;
+      }
+      function statusLabel(status) {
+        return (
+          {
+            "not-started": "Not Started",
+            "in-progress": "In Progress",
+            shipped: "Shipped",
+            reviewed: "Reviewed",
+          }[status] || "Not Started"
+        );
+      }
+      function projectCardMarkup(project, phase, status, notes, compact) {
+        return `<article class="project-card" data-project-card="${project.id}"><div class="project-top"><div><div class="phase-badge" style="margin-bottom: 10px; color:${phase.color}">${escapeHtml(phase.title)}</div><div class="project-title">${escapeHtml(project.title)}</div><div class="muted">${escapeHtml(project.desc)}</div><div class="tag-row" style="margin-top: 12px">${project.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div></div><div class="project-controls"><div><label for="status-${project.id}">Status</label><select id="status-${project.id}" data-project-status="${project.id}"><option value="not-started" ${status === "not-started" ? "selected" : ""}>Not Started</option><option value="in-progress" ${status === "in-progress" ? "selected" : ""}>In Progress</option><option value="shipped" ${status === "shipped" ? "selected" : ""}>Shipped</option><option value="reviewed" ${status === "reviewed" ? "selected" : ""}>Reviewed</option></select></div><div class="status-pill">${statusLabel(status)}</div></div></div><details ${compact ? "open" : ""}><summary>Notes</summary><textarea data-project-note="${project.id}" placeholder="What I learned, what broke, what to fix next">${escapeHtml(notes)}</textarea></details></article>`;
+      }
+
+      function renderTopBar() {
+        const week = currentWeekNumber();
+        const dsaToday = state.dsa.byDate?.[todayKey()] || 0;
+        const progress = overallProgress();
+        document.getElementById("overall-progress-fill").style.width =
+          `${progress}%`;
+        document.getElementById("overall-progress-text").textContent =
+          `${progress}% complete`;
+        document.getElementById("top-week").textContent = `Week ${week}`;
+        document.getElementById("top-streak").textContent = String(
+          state.streak || 0,
+        );
+        document.getElementById("top-dsa").textContent = String(
+          state.dsa.total || 0,
+        );
+        document.getElementById("current-mode").textContent =
+          week <= 8 ? "8–10h/day" : "4h/day";
+        document.getElementById("today-state").textContent =
+          state.todayDone === todayKey() ? "Marked done" : "Not marked done";
+        document.getElementById("roadmap-span").textContent =
+          `${ROADMAP_WEEKS} weeks · 8 months`;
+        document.getElementById("today-dsa-count").textContent =
+          String(dsaToday);
+        document.getElementById("today-dsa-total").textContent = String(
+          state.dsa.total || 0,
+        );
+        document.getElementById("today-streak").textContent = String(
+          state.streak || 0,
+        );
+        document.getElementById("dsa-today-counter").textContent =
+          String(dsaToday);
+        document.getElementById("dsa-all-counter").textContent = String(
+          state.dsa.total || 0,
+        );
+      }
+
+      function renderToday() {
+        const week = currentWeekNumber();
+        const weekData = currentWeekData();
+        const phase = phaseForWeek(week);
+        document.getElementById("today-date").textContent =
+          formatDate(todayKey());
+        document.getElementById("today-week-copy").textContent =
+          `${weekData.title} · ${phase.title} · ${phase.mode}`;
+        document.getElementById("today-done-indicator").textContent =
+          state.todayDone === todayKey() ? "Yes" : "No";
+        document.getElementById("today-state").textContent =
+          state.todayDone === todayKey() ? "Marked done" : "Not marked done";
+        document.getElementById("today-task-list").innerHTML = weekData.tasks
+          .map((task, index) => {
+            const key = `week-${weekData.week}-${index}`;
+            const checked = Boolean(state.checks[key]);
+            return `<label class="week-task ${checked ? "done" : ""}"><input type="checkbox" data-check-type="week" data-check-id="${key}" ${checked ? "checked" : ""} /><div><div class="label-text">${escapeHtml(task)}</div></div></label>`;
+          })
+          .join("");
+        const currentProject =
+          allProjectMap()[weekData.projectId] || phase.projects[0];
+        const status = state.projectStatus[currentProject.id] || "not-started";
+        const notes = state.projectNotes[currentProject.id] || "";
+        document.getElementById("today-project-preview").innerHTML =
+          projectCardMarkup(currentProject, phase, status, notes, true);
+        renderTaskManager();
+        renderAnalytics();
+        renderForecast();
+      }
+
+      function renderOverview() {
+        document.getElementById("overview-phase-strip").innerHTML = phaseData
+          .map((phase) => {
+            const progress = phaseProgress(phase);
+            return `<div class="overview-phase"><div class="phase-line" style="color:${phase.color}">${escapeHtml(phase.weeks)}</div><h3>${escapeHtml(phase.title)}</h3><p>${escapeHtml(phase.summary)}</p><div class="phase-progress" style="margin-top: 12px"><div class="progress-wrap"><div class="progress-fill" style="width:${progress}%; background: linear-gradient(90deg, ${phase.color}, var(--amber));"></div></div><div class="muted" style="font-size: 12px; margin-top: 8px">${progress}% complete</div></div></div>`;
+          })
+          .join("");
+      }
+      function renderPhases() {
+        document.getElementById("phases-container").innerHTML = phaseData
+          .map((phase, index) => {
+            const progress = phaseProgress(phase);
+            return `<article class="phase-card"><div class="phase-head"><span class="phase-marker" style="background:${phase.color}"></span><div class="phase-copy"><div class="phase-topline"><div><div class="phase-badge"><strong>${escapeHtml(phase.weeks)}</strong> · ${escapeHtml(phase.mode)}</div><h2 class="phase-title" style="font-size: 1.7rem; margin-top: 8px">${escapeHtml(phase.title)}</h2></div><button class="phase-toggle ${index === 0 ? "open" : ""}" data-phase-toggle="${phase.id}"><span class="material-symbols-rounded">expand_more</span></button></div><div class="muted">${escapeHtml(phase.summary)}</div><div class="phase-progress"><div class="progress-wrap"><div class="progress-fill" style="width:${progress}%; background: linear-gradient(90deg, ${phase.color}, var(--amber));"></div></div><div class="muted" style="font-size: 12px; margin-top: 8px">${progress}% complete</div></div></div></div><div class="phase-body ${index === 0 ? "open" : ""}" id="phase-body-${phase.id}"><div class="two-up"><div><div class="small-label">Phase checklist</div><div class="checklist" style="margin-top: 12px">${phase.checklist
+              .map((item) => {
+                const checked = Boolean(state.checks[item.id]);
+                return `<label class="check-row ${checked ? "done" : ""}"><input type="checkbox" data-check-type="phase" data-check-id="${item.id}" ${checked ? "checked" : ""} /><div><div class="label-text">${escapeHtml(item.text)}</div>${item.checkpoint ? `<div class="check-meta">${checkpointDateMarkup(item.id)}</div>` : ""}</div></label>`;
+              })
+              .join(
+                "",
+              )}</div></div><div><div class="small-label">Projects</div><div class="project-grid" style="margin-top: 12px">${phase.projects
+              .map((project) => {
+                const status = state.projectStatus[project.id] || "not-started";
+                const notes = state.projectNotes[project.id] || "";
+                return projectCardMarkup(project, phase, status, notes, false);
+              })
+              .join("")}</div></div></div></div></article>`;
+          })
+          .join("");
+      }
+      function renderWeekly() {
+        document.getElementById("weekly-container").innerHTML = weeklyData
+          .map((week) => {
+            const phase =
+              phaseData.find((item) => item.id === week.phaseId) ||
+              phaseData[0];
+            const progress = weekProgress(week);
+            const complete = progress === 100;
+            return `<article class="week-card ${complete ? "complete" : ""}"><div class="week-stamp stamp">${complete ? "Done" : "Stamp"}</div><div class="week-header"><div><div class="phase-badge" style="color:${phase.color}">${escapeHtml(phase.title)}</div><div class="week-name">Week ${week.week}</div><div class="week-title">${escapeHtml(week.title)}</div></div><div style="text-align:right"><div class="small-label">${phase.mode}</div><div class="muted" style="margin-top: 6px">${progress}% complete</div></div></div><div class="progress-wrap"><div class="progress-fill" style="width:${progress}%; background: linear-gradient(90deg, ${phase.color}, var(--amber));"></div></div><div class="week-desc" style="margin-top: 14px">${escapeHtml(week.summary)}</div><div class="week-list">${week.tasks
+              .map((task, index) => {
+                const key = `week-${week.week}-${index}`;
+                const checked = Boolean(state.checks[key]);
+                return `<label class="week-task ${checked ? "done" : ""}"><input type="checkbox" data-check-type="week" data-check-id="${key}" ${checked ? "checked" : ""} /><div><div class="label-text">${escapeHtml(task)}</div></div></label>`;
+              })
+              .join(
+                "",
+              )}${week.checkpoint ? `<label class="week-task ${state.checks[`week-${week.week}-checkpoint`] ? "done" : ""}"><input type="checkbox" data-check-type="checkpoint" data-check-id="week-${week.week}-checkpoint" ${state.checks[`week-${week.week}-checkpoint`] ? "checked" : ""} /><div><div class="label-text">Rebuild checkpoint</div><div class="check-meta">${checkpointDateMarkup(`week-${week.week}-checkpoint`)}</div></div></label>` : ""}</div><div class="week-meta"><span class="tag">${escapeHtml(phase.title)}</span>${week.checkpoint ? '<span class="tag">Checkpoint week</span>' : ""}${complete ? '<span class="tag">Milestone complete</span>' : ""}</div><div class="week-actions"><button class="quick-btn" data-jump-phase="${phase.id}">Open phase</button><button class="quick-btn" data-jump-project="${week.projectId}">Open project</button></div></article>`;
+          })
+          .join("");
+      }
+      function renderPatternGrid() {
+        document.getElementById("pattern-grid").innerHTML = patternData
+          .map(
+            ([name, desc]) =>
+              `<div class="pattern-card"><div class="pattern-name">${escapeHtml(name)}</div><div class="pattern-desc">${escapeHtml(desc)}</div></div>`,
+          )
+          .join("");
+      }
+      function renderDSA() {}
+      function renderProjectControls() {}
+      function renderAll() {
+        renderTopBar();
+        renderToday();
+        renderOverview();
+        renderPhases();
+        renderWeekly();
+        renderDSA();
+        renderPatternGrid();
+        renderProjectControls();
+      }
+
+      function addCustomTask(text) {
+        const value = text.trim();
+        if (!value) return;
+        state.customTasks.push({
+          id: `task-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          date: todayKey(),
+          text: value,
+          done: false,
+          createdAt: Date.now(),
+        });
+        saveState();
+        recordActivity();
+        renderAll();
+      }
+
+      function toggleCustomTask(taskId, done) {
+        const task = state.customTasks.find((item) => item.id === taskId);
+        if (!task) return;
+        task.done = done;
+        saveState();
+        recordActivity();
+        renderAll();
+      }
+
+      function deleteCustomTask(taskId) {
+        state.customTasks = state.customTasks.filter(
+          (item) => item.id !== taskId,
+        );
+        saveState();
+        recordActivity();
+        renderAll();
+      }
+
+      function saveJournalFromInput() {
+        const journal = document.getElementById("journal-input");
+        if (!journal) return;
+        setDailyJournal(todayKey(), journal.value);
+        renderAnalytics();
+        renderForecast();
+        renderTopBar();
+      }
+
+      function setPage(page) {
+        document
+          .querySelectorAll(".page")
+          .forEach((el) => el.classList.remove("active"));
+        const target = document.getElementById(`page-${page}`);
+        if (target) target.classList.add("active");
+        document
+          .querySelectorAll(".nav-btn, .sidebar-link")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(`[data-page-btn="${page}"]`)
+          .forEach((el) => el.classList.add("active"));
+      }
+      function togglePhase(phaseId, open = null) {
+        const body = document.getElementById(`phase-body-${phaseId}`);
+        const button = document.querySelector(
+          `[data-phase-toggle="${phaseId}"]`,
+        );
+        if (!body || !button) return;
+        const shouldOpen = open ?? !body.classList.contains("open");
+        body.classList.toggle("open", shouldOpen);
+        button.classList.toggle("open", shouldOpen);
+      }
+      function openPhase(phaseId) {
+        setPage("phases");
+        togglePhase(phaseId, true);
+      }
+      function openProject(projectId) {
+        const project = allProjectMap()[projectId];
+        if (!project) return;
+        const phase = phaseData.find((item) =>
+          item.projects.some((proj) => proj.id === projectId),
+        );
+        if (!phase) return;
+        setPage("phases");
+        togglePhase(phase.id, true);
+        setTimeout(() => {
+          document
+            .querySelector(`[data-project-card="${projectId}"]`)
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 70);
+      }
+      function bumpDSA() {
+        const date = todayKey();
+        state.dsa.total = (state.dsa.total || 0) + 1;
+        state.dsa.byDate[date] = (state.dsa.byDate[date] || 0) + 1;
+        saveState();
+        recordActivity();
+        renderTopBar();
+      }
+      function markTodayDone() {
+        state.todayDone = todayKey();
+        saveState();
+        recordActivity();
+        renderTopBar();
+        renderToday();
+      }
+      function handleCheckChange(target) {
+        const id = target.dataset.checkId;
+        const type = target.dataset.checkType;
+        if (!id || !type) return;
+        state.checks[id] = target.checked;
+        if (type === "checkpoint")
+          state.checks[`${id}:date`] = target.checked ? todayKey() : "";
+        saveState();
+        recordActivity();
+        renderAll();
+      }
+      function updateProjectStatus(projectId, value) {
+        state.projectStatus[projectId] = value;
+        saveState();
+        recordActivity();
+        renderAll();
+      }
+      function updateProjectNote(projectId, value) {
+        state.projectNotes[projectId] = value;
+        saveState();
+        recordActivity();
+      }
+
+      document.addEventListener("click", (event) => {
+        const pageButton = event.target.closest("[data-page-btn]");
+        if (pageButton) {
+          setPage(pageButton.dataset.pageBtn);
+          recordActivity();
+          saveState();
+          return;
+        }
+        const phaseToggle = event.target.closest("[data-phase-toggle]");
+        if (phaseToggle) {
+          togglePhase(phaseToggle.dataset.phaseToggle);
+          recordActivity();
+          return;
+        }
+        const jumpPhase = event.target.closest("[data-jump-phase]");
+        if (jumpPhase) {
+          openPhase(jumpPhase.dataset.jumpPhase);
+          return;
+        }
+        const jumpProject = event.target.closest("[data-jump-project]");
+        if (jumpProject) {
+          openProject(jumpProject.dataset.jumpProject);
+          return;
+        }
+        if (
+          event.target.closest("#dsa-plus-btn") ||
+          event.target.closest("#log-dsa-btn")
+        ) {
+          bumpDSA();
+          return;
+        }
+        if (event.target.closest("#mark-today-btn")) {
+          markTodayDone();
+          return;
+        }
+        if (event.target.closest("#open-project-btn")) {
+          openProject(currentWeekData().projectId);
+          return;
+        }
+
+        if (event.target.closest("#add-task-btn")) {
+          const input = document.getElementById("task-input");
+          addCustomTask(input?.value || "");
+          if (input) input.value = "";
+          return;
+        }
+
+        if (event.target.closest("#save-journal-btn")) {
+          saveJournalFromInput();
+          return;
+        }
+
+        const taskToggle = event.target.closest("[data-task-toggle]");
+        if (taskToggle) {
+          toggleCustomTask(taskToggle.dataset.taskToggle, taskToggle.checked);
+          return;
+        }
+
+        const taskDelete = event.target.closest("[data-task-delete]");
+        if (taskDelete) {
+          deleteCustomTask(taskDelete.dataset.taskDelete);
+          return;
+        }
+
+        if (event.target.closest("#reset-btn")) {
+          const ok = window.confirm(
+            "Reset all saved progress? This clears checkboxes, notes, project states, streaks, and DSA counts.",
+          );
+          if (!ok) return;
+          localStorage.removeItem(STORAGE_KEY);
+          location.reload();
+        }
+      });
+      document.addEventListener("change", (event) => {
+        const check = event.target.closest("[data-check-type][data-check-id]");
+        if (check) {
+          handleCheckChange(check);
+          return;
+        }
+        const status = event.target.closest("[data-project-status]");
+        if (status)
+          updateProjectStatus(status.dataset.projectStatus, status.value);
+      });
+      document.addEventListener("input", (event) => {
+        const note = event.target.closest("[data-project-note]");
+        if (note) updateProjectNote(note.dataset.projectNote, note.value);
+
+        const journal = event.target.closest("#journal-input");
+        if (journal) {
+          setDailyJournal(todayKey(), journal.value);
+          renderAnalytics();
+          renderForecast();
+          return;
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.target &&
+          event.target.id === "task-input" &&
+          event.key === "Enter"
+        ) {
+          event.preventDefault();
+          addCustomTask(event.target.value);
+          event.target.value = "";
+        }
+      });
+
+      renderAll();
+      togglePhase("phase1", true);
+      setPage("today");
+    </script>
+  </body>
+</html>
