@@ -1,8 +1,5 @@
 import { verifyAccessToken } from "../utils/jwt.js";
-import {
-  AuthenticationError,
-  AuthorizationError,
-} from "../utils/errorResponse.js";
+import { AuthenticationError } from "../utils/errorResponse.js";
 import logger from "../utils/logger.js";
 
 /**

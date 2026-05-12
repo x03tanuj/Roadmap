@@ -1,5 +1,6 @@
 import express from "express";
 import authRoutes from "./v1/auth.js";
+import teamRoutes from "./v1/teams.js";
 
 const router = express.Router();
 
@@ -10,8 +11,10 @@ const router = express.Router();
 // Auth routes
 router.use("/auth", authRoutes);
 
+// Team routes
+router.use("/teams", teamRoutes);
+
 // More routes will be added here:
-// router.use('/teams', teamRoutes);
 // router.use('/projects', projectRoutes);
 // router.use('/tasks', taskRoutes);
 
